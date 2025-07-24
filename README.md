@@ -86,8 +86,10 @@ Transform legacy payment infrastructure into a modern, **API-first platform** su
 ## 💼 **Enterprise Client Integration Examples**
 
 ### **Atlantic Financial Group** - $2.3B Daily Wire Processing
-```json
+```http
 POST /api/v2/payments/wire/initiate
+```
+```json
 {
   "amount": {"value": "2500000.00", "currency": "USD"},
   "instructingAgent": "AFGUUS33XXX",
@@ -97,19 +99,18 @@ POST /api/v2/payments/wire/initiate
 ```
 
 ### **Continental Banking Corporation** - 12,000+ Corporate Account Reconciliation
-```json
+```http
 GET /api/v2/accounts/{accountId}/statements/eod
-Response: ISO 20022 Camt.053 compliant reporting
 ```
+Response: ISO 20022 Camt.053 compliant reporting
 
 ### **National Commerce Bank** - $890M Daily Monitoring
-```json
+```http
 POST /api/v2/cash/confirmations
-Response: Real-time settlement confirmations
 ```
+Response: Real-time settlement confirmations
 
 **[📊 View API Specifications →](./03-api-architecture/api-specifications/)**
-
 ---
 
 ## 📊 **Business Impact & ROI**
