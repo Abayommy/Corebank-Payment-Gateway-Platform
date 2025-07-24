@@ -96,7 +96,7 @@ POST /api/v2/payments/wire/initiate
 }
 ```
 
-### **Continental Banking Corporation" - 12,000+ Corporate Account Reconciliation
+### **Continental Banking Corporation** - 12,000+ Corporate Account Reconciliation
 ```json
 GET /api/v2/accounts/{accountId}/statements/eod
 Response: ISO 20022 Camt.053 compliant reporting
