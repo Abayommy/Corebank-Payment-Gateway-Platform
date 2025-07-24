@@ -12,7 +12,9 @@
 ![Apache Kafka](https://img.shields.io/badge/Apache_Kafka-000?style=flat&logo=apachekafka)
 ![AWS](https://img.shields.io/badge/AWS-232F3E?style=flat&logo=amazon-aws&logoColor=white)
 ![Kong](https://img.shields.io/badge/Kong-003459?style=flat&logo=kong&logoColor=white)
+---
 
+> **📋 Portfolio Note**: All client names and integration scenarios are fictional and for demonstration purposes. Metrics and technical specifications represent realistic enterprise-scale examples based on industry standards and 11+ years of authentic banking domain experience.
 ---
 
 ## 🎯 **Executive Summary**
@@ -83,24 +85,24 @@ Transform legacy payment infrastructure into a modern, **API-first platform** su
 
 ## 💼 **Enterprise Client Integration Examples**
 
-### **JP Morgan Chase** - $2.3B Daily Wire Processing
+### **Atlantic Financial Group** - $2.3B Daily Wire Processing
 ```json
 POST /api/v2/payments/wire/initiate
 {
   "amount": {"value": "2500000.00", "currency": "USD"},
-  "instructingAgent": "CHASUS33XXX",
-  "instructedAgent": "BOFAUS3NXXX",
+  "instructingAgent": "AFGUUS33XXX",
+  "instructedAgent": "CBCUUS33XXX",
   "purposeCode": "TRAD"
 }
 ```
 
-### **Wells Fargo** - 12,000+ Corporate Account Reconciliation
+### **Continental Banking Corporation" - 12,000+ Corporate Account Reconciliation
 ```json
 GET /api/v2/accounts/{accountId}/statements/eod
 Response: ISO 20022 Camt.053 compliant reporting
 ```
 
-### **Goldman Sachs** - $15B Daily Trading Settlements
+### **National Commerce Bank** - $890M Daily Monitoring
 ```json
 POST /api/v2/cash/confirmations
 Response: Real-time settlement confirmations
