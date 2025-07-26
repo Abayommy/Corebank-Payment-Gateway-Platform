@@ -1,0 +1,640 @@
+openapi: 3.0.3
+info:
+  title: CoreBank Payment Gateway Platform API
+  description: |
+    **Enterprise-grade payment processing API for Fortune 500 banking clients**
+    
+    ## Overview
+    The CoreBank Payment Gateway Platform provides secure, real-time wire transfer
+    processing with comprehensive status tracking and compliance monitoring.
+    
+    **Key Features:**
+    - Real-time wire transfer initiation (<200ms response)
+    - FedWire and CHIPS network integration
+    - ISO 20022 compliant messaging
+    - Comprehensive compliance screening
+    - Webhook-based status notifications
+    
+    ## Business Impact
+    - **$50.2B** annual processing volume
+    - **847** enterprise clients
+    - **99.97%** transaction success rate
+    - **<200ms** average API response time
+    
+    ## Authentication
+    All API endpoints require OAuth 2.0 authentication with JWT tokens.
+    Mutual TLS (mTLS) is required for production environments.
+    
+    ## Rate Limits
+    - Standard clients: 1,000 requests/minute
+    - Enterprise clients: 10,000 requests/minute
+    - Premium SLA clients: 50,000 requests/minute
+    
+    ## Support
+    - **Technical Support**: api-support@corebank.com
+    - **Business Inquiries**: partnerships@corebank.com
+    - **Documentation**: https://docs.corebank.com/api
+    
+  version: "2.1.0"
+  contact:
+    name: CoreBank API Support
+    email: api-support@corebank.com
+    url: https://docs.corebank.com/support
+  license:
+    name: CoreBank Enterprise License
+    url: https://corebank.com/licenses/enterprise
+
+servers:
+  - url: https://api.corebank.com/v2
+    description: Production environment
+  - url: https://api-staging.corebank.com/v2
+    description: Staging environment
+  - url: https://api-sandbox.corebank.com/v2
+    description: Sandbox environment
+
+security:
+  - OAuth2: [payments:write, payments:read]
+  - mTLS: []
+
+paths:
+  /payments/wire/initiate:
+    post:
+      tags:
+        - Wire Transfers
+      summary: Initiate Wire Transfer
+      description: |
+        Initiates a wire transfer through FedWire or CHIPS networks.
+        
+        **Business Use Case:**
+        Atlantic Financial Group processes $2.3B daily in wire transfers for corporate clients
+        using this endpoint with <150ms average response time.
+        
+        **Compliance Features:**
+        - Automatic OFAC sanctions screening
+        - AML (Anti-Money Laundering) validation
+        - Real-time risk scoring
+        - Audit trail generation
+        
+        **Network Routing:**
+        - Amounts >$1M: Automatically routed via FedWire
+        - Domestic transfers: CHIPS eligible for faster settlement
+        - International: SWIFT MT103 message generation
+        
+      operationId: initiateWireTransfer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WireTransferRequest'
+            examples:
+              atlantic_financial_corporate:
+                summary: Atlantic Financial Group Corporate Transfer
+                description: Large corporate wire transfer example
+                value:
+                  transactionId: "WIRE-20250719-AFG-89234"
+                  instructingAgent: "AFGUUS33XXX"
+                  instructedAgent: "CBCUUS33XXX"
+                  amount:
+                    value: "2500000.00"
+                    currency: "USD"
+                  debtorAccount: "4401234567890123"
+                  creditorAccount: "5512345678901234"
+                  remittanceInfo: "Trade Finance Settlement - Invoice TF-2025-4471"
+                  executionDate: "2025-07-19T14:30:00Z"
+                  priority: "HIGH"
+                  fedwireRequired: true
+                  chipsEligible: true
+                  purposeCode: "TRAD"
+                  clientMetadata:
+                    clientId: "AFG-CORP-001"
+                    department: "Treasury Operations"
+                    approver: "John Smith"
+              continental_banking_standard:
+                summary: Continental Banking Corporation Standard Transfer
+                description: Standard business wire transfer
+                value:
+                  transactionId: "WIRE-20250719-CBC-12345"
+                  instructingAgent: "CBCUUS33XXX"
+                  instructedAgent: "NCBUUS33XXX"
+                  amount:
+                    value: "150000.00"
+                    currency: "USD"
+                  debtorAccount: "1234567890123456"
+                  creditorAccount: "9876543210987654"
+                  remittanceInfo: "Vendor Payment - Contract VP-2025-892"
+                  executionDate: "2025-07-19T16:00:00Z"
+                  priority: "NORMAL"
+                  fedwireRequired: false
+                  chipsEligible: true
+                  purposeCode: "SUPP"
+      responses:
+        '201':
+          description: Wire transfer successfully initiated
+          headers:
+            X-Request-ID:
+              description: Unique request identifier for tracking
+              schema:
+                type: string
+                example: "req_7f8a9b2c1d3e4f5g"
+            X-RateLimit-Remaining:
+              description: Number of requests remaining in the current window
+              schema:
+                type: integer
+                example: 9999
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WireTransferResponse'
+              examples:
+                successful_initiation:
+                  summary: Successful wire transfer initiation
+                  value:
+                    paymentId: "CPGP-WIRE-20250719-001847"
+                    status: "INITIATED"
+                    fedwireReference: "FW240719AFGUUS33001847"
+                    chipsSequence: "CH240719089234"
+                    estimatedSettlement: "2025-07-19T15:15:00Z"
+                    fees:
+                      wireTransferFee: "25.00"
+                      fedwireFee: "18.50"
+                      totalFees: "43.50"
+                    complianceChecks:
+                      sanctionsScreening: "PASSED"
+                      amlStatus: "CLEARED"
+                      ofacStatus: "CLEAR"
+                      riskScore: "LOW"
+                    statusUpdateUrl: "https://api.corebank.com/v2/payments/CPGP-WIRE-20250719-001847/status"
+                    webhookDelivered: true
+        '400':
+          description: Bad Request - Invalid input parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized - Invalid or missing authentication
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden - Insufficient permissions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Compliance Violation - Transaction blocked
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComplianceErrorResponse'
+        '429':
+          description: Too Many Requests - Rate limit exceeded
+          headers:
+            Retry-After:
+              description: Number of seconds to wait before retrying
+              schema:
+                type: integer
+                example: 60
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /payments/{paymentId}/status:
+    get:
+      tags:
+        - Payment Status
+      summary: Get Payment Status
+      description: |
+        Retrieves real-time status of a wire transfer with complete audit trail.
+        
+        **Business Use Case:**
+        National Commerce Bank monitors $890M daily wire processing for risk management
+        using this endpoint for real-time visibility.
+        
+        **Status Lifecycle:**
+        1. INITIATED - Payment accepted and queued
+        2. COMPLIANCE_CHECKING - OFAC/AML screening in progress
+        3. FEDWIRE_SUBMITTED - Sent to Federal Reserve
+        4. SETTLEMENT_IN_PROGRESS - Processing at receiving bank
+        5. COMPLETED - Successfully settled
+        6. FAILED - Settlement unsuccessful
+        7. RETURNED - Returned by receiving bank
+        
+      operationId: getPaymentStatus
+      parameters:
+        - name: paymentId
+          in: path
+          required: true
+          description: Unique payment identifier returned from initiation
+          schema:
+            type: string
+            pattern: '^CPGP-WIRE-[0-9]{8}-[0-9]{6}$'
+            example: "CPGP-WIRE-20250719-001847"
+        - name: includeHistory
+          in: query
+          required: false
+          description: Include complete status history
+          schema:
+            type: boolean
+            default: true
+        - name: includeRawMessages
+          in: query
+          required: false
+          description: Include raw network messages (enterprise clients only)
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: Payment status retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentStatusResponse'
+              examples:
+                in_progress:
+                  summary: Payment in progress
+                  value:
+                    paymentId: "CPGP-WIRE-20250719-001847"
+                    currentStatus: "SETTLEMENT_IN_PROGRESS"
+                    statusHistory:
+                      - status: "INITIATED"
+                        timestamp: "2025-07-19T14:30:15Z"
+                        location: "CPGP_CORE"
+                        details: "Payment accepted and queued for processing"
+                      - status: "COMPLIANCE_CHECKING"
+                        timestamp: "2025-07-19T14:30:45Z"
+                        location: "COMPLIANCE_ENGINE"
+                        details: "OFAC and AML screening completed successfully"
+                      - status: "FEDWIRE_SUBMITTED"
+                        timestamp: "2025-07-19T14:31:22Z"
+                        location: "FEDERAL_RESERVE"
+                        details: "Submitted to FedWire network"
+                        fedwireReference: "FW240719AFGUUS33001847"
+                      - status: "SETTLEMENT_IN_PROGRESS"
+                        timestamp: "2025-07-19T14:45:33Z"
+                        location: "RECEIVING_BANK"
+                        details: "Processing at Continental Banking Corporation"
+                    estimatedCompletion: "2025-07-19T15:15:00Z"
+                    actualFees: "43.50"
+                    riskScore: "LOW"
+                    networkMetrics:
+                      fedwireTransitTime: "14 minutes"
+                      expectedSettlementWindow: "15:00-15:30 EDT"
+        '404':
+          description: Payment not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://auth.corebank.com/oauth2/token
+          scopes:
+            payments:read: Read payment information
+            payments:write: Initiate and modify payments
+            payments:admin: Administrative payment operations
+    mTLS:
+      type: mutualTLS
+      description: Mutual TLS authentication required for production
+
+  schemas:
+    WireTransferRequest:
+      type: object
+      required:
+        - transactionId
+        - instructingAgent
+        - instructedAgent
+        - amount
+        - debtorAccount
+        - creditorAccount
+        - executionDate
+      properties:
+        transactionId:
+          type: string
+          description: Client-provided unique transaction identifier
+          pattern: '^[A-Z0-9-]{10,50}$'
+          example: "WIRE-20250719-AFG-89234"
+        instructingAgent:
+          type: string
+          description: BIC code of the instructing financial institution
+          pattern: '^[A-Z]{6}[A-Z0-9]{2}([A-Z0-9]{3})?$'
+          example: "AFGUUS33XXX"
+        instructedAgent:
+          type: string
+          description: BIC code of the instructed financial institution
+          pattern: '^[A-Z]{6}[A-Z0-9]{2}([A-Z0-9]{3})?$'
+          example: "CBCUUS33XXX"
+        amount:
+          $ref: '#/components/schemas/Amount'
+        debtorAccount:
+          type: string
+          description: Account to be debited
+          pattern: '^[0-9]{10,34}$'
+          example: "4401234567890123"
+        creditorAccount:
+          type: string
+          description: Account to be credited
+          pattern: '^[0-9]{10,34}$'
+          example: "5512345678901234"
+        remittanceInfo:
+          type: string
+          description: Payment purpose and details
+          maxLength: 140
+          example: "Trade Finance Settlement - Invoice TF-2025-4471"
+        executionDate:
+          type: string
+          format: date-time
+          description: Requested execution date and time (ISO 8601)
+          example: "2025-07-19T14:30:00Z"
+        priority:
+          type: string
+          enum: [HIGH, NORMAL, LOW]
+          description: Payment priority level
+          default: NORMAL
+          example: "HIGH"
+        fedwireRequired:
+          type: boolean
+          description: Force routing through FedWire network
+          default: false
+        chipsEligible:
+          type: boolean
+          description: Allow routing through CHIPS network
+          default: true
+        purposeCode:
+          type: string
+          description: ISO 20022 purpose code
+          enum: [TRAD, SUPP, SALA, DIVD, INTE, LOAN, FEES, OTHR]
+          example: "TRAD"
+        clientMetadata:
+          $ref: '#/components/schemas/ClientMetadata'
+
+    Amount:
+      type: object
+      required:
+        - value
+        - currency
+      properties:
+        value:
+          type: string
+          description: Monetary amount (decimal string)
+          pattern: '^[0-9]+(\.[0-9]{1,2})?$'
+          example: "2500000.00"
+        currency:
+          type: string
+          description: ISO 4217 currency code
+          pattern: '^[A-Z]{3}$'
+          example: "USD"
+
+    ClientMetadata:
+      type: object
+      description: Client-specific metadata for tracking and reporting
+      properties:
+        clientId:
+          type: string
+          description: Client identifier
+          example: "AFG-CORP-001"
+        department:
+          type: string
+          description: Client department or division
+          example: "Treasury Operations"
+        approver:
+          type: string
+          description: Transaction approver name
+          example: "John Smith"
+        referenceNumber:
+          type: string
+          description: Client internal reference
+          example: "REF-2025-789123"
+
+    WireTransferResponse:
+      type: object
+      properties:
+        paymentId:
+          type: string
+          description: System-generated unique payment identifier
+          example: "CPGP-WIRE-20250719-001847"
+        status:
+          type: string
+          enum: [INITIATED, COMPLIANCE_CHECKING, FEDWIRE_SUBMITTED, SETTLEMENT_IN_PROGRESS, COMPLETED, FAILED, RETURNED]
+          description: Current payment status
+          example: "INITIATED"
+        fedwireReference:
+          type: string
+          description: FedWire system reference number
+          example: "FW240719AFGUUS33001847"
+        chipsSequence:
+          type: string
+          description: CHIPS sequence number
+          example: "CH240719089234"
+        estimatedSettlement:
+          type: string
+          format: date-time
+          description: Estimated settlement completion time
+          example: "2025-07-19T15:15:00Z"
+        fees:
+          $ref: '#/components/schemas/Fees'
+        complianceChecks:
+          $ref: '#/components/schemas/ComplianceChecks'
+        statusUpdateUrl:
+          type: string
+          format: uri
+          description: URL for checking payment status
+          example: "https://api.corebank.com/v2/payments/CPGP-WIRE-20250719-001847/status"
+        webhookDelivered:
+          type: boolean
+          description: Whether initial webhook notification was delivered
+          example: true
+
+    PaymentStatusResponse:
+      type: object
+      properties:
+        paymentId:
+          type: string
+          example: "CPGP-WIRE-20250719-001847"
+        currentStatus:
+          type: string
+          enum: [INITIATED, COMPLIANCE_CHECKING, FEDWIRE_SUBMITTED, SETTLEMENT_IN_PROGRESS, COMPLETED, FAILED, RETURNED]
+          example: "SETTLEMENT_IN_PROGRESS"
+        statusHistory:
+          type: array
+          items:
+            $ref: '#/components/schemas/StatusHistoryEntry'
+        estimatedCompletion:
+          type: string
+          format: date-time
+          example: "2025-07-19T15:15:00Z"
+        completionTime:
+          type: string
+          format: date-time
+          description: Actual completion time (when status is COMPLETED)
+          example: "2025-07-19T15:12:44Z"
+        actualFees:
+          type: string
+          description: Final fees charged
+          example: "43.50"
+        riskScore:
+          type: string
+          enum: [LOW, MEDIUM, HIGH]
+          example: "LOW"
+        networkMetrics:
+          $ref: '#/components/schemas/NetworkMetrics'
+
+    StatusHistoryEntry:
+      type: object
+      properties:
+        status:
+          type: string
+          example: "FEDWIRE_SUBMITTED"
+        timestamp:
+          type: string
+          format: date-time
+          example: "2025-07-19T14:31:22Z"
+        location:
+          type: string
+          description: System or network location
+          example: "FEDERAL_RESERVE"
+        details:
+          type: string
+          description: Additional status details
+          example: "Submitted to FedWire network"
+        fedwireReference:
+          type: string
+          description: Network reference (when applicable)
+          example: "FW240719AFGUUS33001847"
+
+    Fees:
+      type: object
+      properties:
+        wireTransferFee:
+          type: string
+          description: Base wire transfer fee
+          example: "25.00"
+        fedwireFee:
+          type: string
+          description: FedWire network fee
+          example: "18.50"
+        chipsExtraFee:
+          type: string
+          description: Additional CHIPS fee
+          example: "0.00"
+        totalFees:
+          type: string
+          description: Total fees charged
+          example: "43.50"
+
+    ComplianceChecks:
+      type: object
+      properties:
+        sanctionsScreening:
+          type: string
+          enum: [PASSED, BLOCKED, PENDING]
+          description: OFAC sanctions screening result
+          example: "PASSED"
+        amlStatus:
+          type: string
+          enum: [CLEARED, FLAGGED, PENDING]
+          description: Anti-Money Laundering check status
+          example: "CLEARED"
+        ofacStatus:
+          type: string
+          enum: [CLEAR, BLOCKED, REVIEW]
+          description: Office of Foreign Assets Control status
+          example: "CLEAR"
+        riskScore:
+          type: string
+          enum: [LOW, MEDIUM, HIGH]
+          description: Overall transaction risk assessment
+          example: "LOW"
+
+    NetworkMetrics:
+      type: object
+      description: Network performance and timing metrics
+      properties:
+        fedwireTransitTime:
+          type: string
+          description: Time spent in FedWire network
+          example: "14 minutes"
+        expectedSettlementWindow:
+          type: string
+          description: Expected settlement time window
+          example: "15:00-15:30 EDT"
+        processingTime:
+          type: string
+          description: Total processing time
+          example: "42 minutes"
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Error code for programmatic handling
+              example: "INVALID_AMOUNT"
+            message:
+              type: string
+              description: Human-readable error message
+              example: "Amount must be a positive number with maximum 2 decimal places"
+            details:
+              type: string
+              description: Additional error details
+              example: "Provided amount '2500000.123' has too many decimal places"
+            timestamp:
+              type: string
+              format: date-time
+              description: Error occurrence timestamp
+              example: "2025-07-19T14:30:15Z"
+            requestId:
+              type: string
+              description: Request ID for support tracking
+              example: "req_7f8a9b2c1d3e4f5g"
+
+    ComplianceErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              example: "COMPLIANCE_VIOLATION"
+            message:
+              type: string
+              example: "Transaction blocked due to sanctions screening"
+            complianceDetails:
+              type: object
+              properties:
+                sanctionsScreening:
+                  type: string
+                  example: "BLOCKED"
+                reason:
+                  type: string
+                  example: "Creditor name matches OFAC SDN list"
+                recommendedAction:
+                  type: string
+                  example: "Contact compliance team"
+            timestamp:
+              type: string
+              format: date-time
+              example: "2025-07-19T14:30:15Z"
+            requestId:
+              type: string
+              example: "req_7f8a9b2c1d3e4f5g"
