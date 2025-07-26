@@ -1,0 +1,253 @@
+{
+  "info": {
+    "name": "CoreBank Payment Gateway API",
+    "description": "Enterprise Payment Platform - Sample Integration Collection\n\n**Getting Started:**\n1. Set environment variables for API_BASE_URL and ACCESS_TOKEN\n2. Run authentication request first\n3. Execute wire transfer and status examples\n\n**Support:** api-support@corebank.com",
+    "version": "2.1.0",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{ACCESS_TOKEN}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "API_BASE_URL",
+      "value": "https://api-sandbox.corebank.com/v2",
+      "type": "string"
+    },
+    {
+      "key": "ACCESS_TOKEN",
+      "value": "your_oauth_token_here",
+      "type": "string"
+    },
+    {
+      "key": "PAYMENT_ID",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Get OAuth Token",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const response = pm.response.json();",
+                  "    pm.collectionVariables.set('ACCESS_TOKEN', response.access_token);",
+                  "    console.log('Token saved:', response.access_token);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                },
+                {
+                  "key": "client_id",
+                  "value": "your_client_id"
+                },
+                {
+                  "key": "client_secret",
+                  "value": "your_client_secret"
+                },
+                {
+                  "key": "scope",
+                  "value": "payments:write payments:read"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{API_BASE_URL}}/auth/token",
+              "host": ["{{API_BASE_URL}}"],
+              "path": ["auth", "token"]
+            },
+            "description": "Obtain OAuth 2.0 access token for API authentication"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Wire Transfers",
+      "item": [
+        {
+          "name": "Initiate Wire Transfer - Atlantic Financial",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    const response = pm.response.json();",
+                  "    pm.collectionVariables.set('PAYMENT_ID', response.paymentId);",
+                  "    console.log('Payment ID saved:', response.paymentId);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Request-ID",
+                "value": "{{$randomUUID}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"transactionId\": \"WIRE-{{$timestamp}}-AFG-001\",\n  \"instructingAgent\": \"AFGUUS33XXX\",\n  \"instructedAgent\": \"CBCUUS33XXX\",\n  \"amount\": {\n    \"value\": \"250000.00\",\n    \"currency\": \"USD\"\n  },\n  \"debtorAccount\": \"4401234567890123\",\n  \"creditorAccount\": \"5512345678901234\",\n  \"remittanceInfo\": \"Corporate Payment - Invoice INV-2025-4471\",\n  \"executionDate\": \"{{$isoTimestamp}}\",\n  \"priority\": \"NORMAL\",\n  \"fedwireRequired\": false,\n  \"chipsEligible\": true,\n  \"purposeCode\": \"SUPP\",\n  \"clientMetadata\": {\n    \"clientId\": \"AFG-CORP-001\",\n    \"department\": \"Treasury Operations\",\n    \"approver\": \"John Smith\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{API_BASE_URL}}/payments/wire/initiate",
+              "host": ["{{API_BASE_URL}}"],
+              "path": ["payments", "wire", "initiate"]
+            },
+            "description": "Initiate a standard corporate wire transfer for Atlantic Financial Group"
+          }
+        },
+        {
+          "name": "Initiate High-Value Wire Transfer",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Request-ID",
+                "value": "{{$randomUUID}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"transactionId\": \"WIRE-{{$timestamp}}-HV-001\",\n  \"instructingAgent\": \"CBCUUS33XXX\",\n  \"instructedAgent\": \"NCBUUS33XXX\",\n  \"amount\": {\n    \"value\": \"1500000.00\",\n    \"currency\": \"USD\"\n  },\n  \"debtorAccount\": \"1234567890123456\",\n  \"creditorAccount\": \"9876543210987654\",\n  \"remittanceInfo\": \"High-Value Trade Settlement\",\n  \"executionDate\": \"{{$isoTimestamp}}\",\n  \"priority\": \"HIGH\",\n  \"fedwireRequired\": true,\n  \"chipsEligible\": false,\n  \"purposeCode\": \"TRAD\"\n}"
+            },
+            "url": {
+              "raw": "{{API_BASE_URL}}/payments/wire/initiate",
+              "host": ["{{API_BASE_URL}}"],
+              "path": ["payments", "wire", "initiate"]
+            },
+            "description": "High-value wire transfer requiring FedWire routing"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Payment Status",
+      "item": [
+        {
+          "name": "Get Payment Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{API_BASE_URL}}/payments/{{PAYMENT_ID}}/status?includeHistory=true",
+              "host": ["{{API_BASE_URL}}"],
+              "path": ["payments", "{{PAYMENT_ID}}", "status"],
+              "query": [
+                {
+                  "key": "includeHistory",
+                  "value": "true",
+                  "description": "Include complete status history"
+                }
+              ]
+            },
+            "description": "Retrieve real-time payment status with history"
+          }
+        },
+        {
+          "name": "Get Payment Status - Sample ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{API_BASE_URL}}/payments/CPGP-WIRE-20250719-001847/status",
+              "host": ["{{API_BASE_URL}}"],
+              "path": ["payments", "CPGP-WIRE-20250719-001847", "status"]
+            },
+            "description": "Example with fixed payment ID for testing"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Account Information",
+      "item": [
+        {
+          "name": "Get Account Balance Statement",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{API_BASE_URL}}/accounts/4401234567890123/statements/eod",
+              "host": ["{{API_BASE_URL}}"],
+              "path": ["accounts", "4401234567890123", "statements", "eod"]
+            },
+            "description": "Retrieve end-of-day balance statement (ISO 20022 Camt.053)"
+          }
+        },
+        {
+          "name": "Get Intraday Liquidity",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{API_BASE_URL}}/accounts/4401234567890123/intraday",
+              "host": ["{{API_BASE_URL}}"],
+              "path": ["accounts", "4401234567890123", "intraday"]
+            },
+            "description": "Real-time intraday liquidity monitoring (ISO 20022 Camt.052)"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Health Check",
+      "item": [
+        {
+          "name": "API Health Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{API_BASE_URL}}/health",
+              "host": ["{{API_BASE_URL}}"],
+              "path": ["health"]
+            },
+            "description": "Check API service health and status"
+          }
+        }
+      ]
+    }
+  ]
+}
