@@ -80,7 +80,6 @@ export function MetricCard({
     <div className={`bg-slate-800/50 border border-slate-700 rounded-xl p-6 hover:bg-slate-700/50 transition-all duration-300 ${className}`}>
       <div className="flex items-center justify-between mb-2">
         <h3 className="text-gray-400 text-sm font-medium">{title}</h3>
-        {change !== undefined && TrendIcon && (
           <div className={`flex items-center space-x-1 ${trendColors[trend]}`}>
             
             <span className="text-xs">{Math.abs(change)}%</span>

@@ -307,7 +307,6 @@ export default function PaymentFlowDemo() {
                           : 'bg-slate-700/30 border-slate-600'
                       }`}
                     >
-                      {/* Step Icon */}
                       <div
                         className={`flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center transition-all duration-500 ${
                           isActive

@@ -159,7 +159,6 @@ export default function EnhancedHomepage() {
                   onClick={() => setActiveFeature(index)}
                 >
                   <div className="flex items-center space-x-4">
-                    <feature.icon 
                       className={`transition-all duration-300 ${
                         activeFeature === index ? 'text-blue-400 scale-110' : 'text-gray-400 group-hover:text-blue-400'
                       }`} 
