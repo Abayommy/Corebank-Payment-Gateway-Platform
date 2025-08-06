@@ -170,7 +170,7 @@ const APIPlayground = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <Link href="/" className="flex items-center space-x-3 hover:opacity-80 transition-opacity">
-              <ArrowLeft className="w-5 h-5" />
+              
               <span>Back to Home</span>
             </Link>
             <div className="flex items-center space-x-3">
@@ -359,7 +359,7 @@ const APIPlayground = () => {
             {/* Code Examples */}
             <div className="mt-8 bg-slate-800/50 rounded-xl border border-slate-700 p-6">
               <h3 className="text-lg font-semibold mb-4 flex items-center">
-                <FileText className="w-5 h-5 mr-2" />
+                
                 Integration Examples
               </h3>
               

@@ -19,7 +19,7 @@ export function LoadingSpinner({ size = 'md', className = '' }: {
   };
 
   return (
-    <Loader2 className={`animate-spin ${sizes[size]} ${className}`} />
+    
   );
 }
 
@@ -39,7 +39,7 @@ export function LoadingOverlay({ message = 'Loading...' }: { message?: string })
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
       <div className="bg-slate-800 border border-slate-700 rounded-xl p-8 text-center">
-        <LoadingSpinner size="lg" className="mx-auto mb-4 text-blue-400" />
+        
         <p className="text-white font-medium">{message}</p>
       </div>
     </div>
@@ -75,7 +75,6 @@ export function MetricCard({
     neutral: 'text-gray-400'
   };
 
-  const TrendIcon = trend === 'up' ? TrendingUp : trend === 'down' ? TrendingDown : null;
 
   return (
     <div className={`bg-slate-800/50 border border-slate-700 rounded-xl p-6 hover:bg-slate-700/50 transition-all duration-300 ${className}`}>
@@ -83,7 +82,7 @@ export function MetricCard({
         <h3 className="text-gray-400 text-sm font-medium">{title}</h3>
         {change !== undefined && TrendIcon && (
           <div className={`flex items-center space-x-1 ${trendColors[trend]}`}>
-            <TrendIcon size={16} />
+            
             <span className="text-xs">{Math.abs(change)}%</span>
           </div>
         )}

@@ -35,7 +35,7 @@ export default function AppLayout({
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
-      <Navigation />
+      
       
       <main className="relative">
         {children}
@@ -122,7 +122,7 @@ export default function AppLayout({
           onClick={scrollToTop}
           className="fixed bottom-8 right-8 w-12 h-12 bg-blue-600 hover:bg-blue-700 text-white rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 shadow-lg z-40"
         >
-          <ArrowUp size={20} />
+          
         </button>
       )}
 
@@ -162,7 +162,7 @@ export default function AppLayout({
             onClick={() => setShowChatWidget(!showChatWidget)}
             className="w-14 h-14 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 shadow-lg"
           >
-            <MessageCircle size={24} />
+            
           </button>
         </div>
       )}

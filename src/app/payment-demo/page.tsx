@@ -1,28 +1,14 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { 
-  ArrowRight, 
-  CheckCircle, 
-  Clock, 
-  Shield, 
-  CreditCard, 
-  Building2, 
-  Globe, 
-  Zap,
-  AlertCircle,
-  Copy,
-  RefreshCw,
   Eye,
   EyeOff
-} from 'lucide-react';
 
 interface PaymentStep {
   id: number;
   title: string;
   description: string;
   status: 'pending' | 'processing' | 'completed' | 'current';
-  icon: any;
+  ;
   duration: string;
   details?: string[];
 }
@@ -62,7 +48,7 @@ export default function PaymentFlowDemo() {
       title: 'Payment Initiation',
       description: 'Validating payment request and account details',
       status: 'pending',
-      icon: CreditCard,
+      ,
       duration: '~2 seconds',
       details: [
         'Account validation completed',
@@ -76,7 +62,7 @@ export default function PaymentFlowDemo() {
       title: 'Security Verification',
       description: 'Multi-layer security and compliance screening',
       status: 'pending',
-      icon: Shield,
+      ,
       duration: '~5 seconds',
       details: [
         'AML screening in progress',
@@ -90,7 +76,7 @@ export default function PaymentFlowDemo() {
       title: 'Network Routing',
       description: 'Optimal routing through banking networks',
       status: 'pending',
-      icon: Globe,
+      ,
       duration: '~3 seconds',
       details: [
         'SWIFT network selected',
@@ -104,7 +90,7 @@ export default function PaymentFlowDemo() {
       title: 'Processing & Settlement',
       description: 'Real-time processing and settlement execution',
       status: 'pending',
-      icon: Zap,
+      ,
       duration: '~8 seconds',
       details: [
         'Payment instruction sent',
@@ -118,7 +104,7 @@ export default function PaymentFlowDemo() {
       title: 'Completion',
       description: 'Transaction completed successfully',
       status: 'pending',
-      icon: CheckCircle,
+      ,
       duration: 'Instant',
       details: [
         'Payment settled successfully',
@@ -197,7 +183,7 @@ export default function PaymentFlowDemo() {
             >
               {isProcessing ? (
                 <>
-                  <RefreshCw className="animate-spin" size={20} />
+                  
                   <span>Processing...</span>
                 </>
               ) : (
@@ -222,7 +208,7 @@ export default function PaymentFlowDemo() {
           <div className="lg:col-span-1">
             <div className="bg-slate-800/50 border border-slate-700 rounded-xl p-6 sticky top-6">
               <h3 className="text-xl font-bold text-white mb-6 flex items-center">
-                <Building2 className="mr-2 text-blue-400" size={24} />
+                
                 Payment Details
               </h3>
               
@@ -244,7 +230,7 @@ export default function PaymentFlowDemo() {
                         onClick={() => setShowAccountNumbers(!showAccountNumbers)}
                         className="text-blue-400 hover:text-blue-300"
                       >
-                        {showAccountNumbers ? <EyeOff size={16} /> : <Eye size={16} />}
+                        {showAccountNumbers ?  : <Eye size={16} />}
                       </button>
                     </div>
                     <span className="text-white">
@@ -306,7 +292,6 @@ export default function PaymentFlowDemo() {
               
               <div className="space-y-6">
                 {steps.map((step, index) => {
-                  const Icon = step.icon;
                   const isActive = isProcessing && currentStep === index;
                   const isCompleted = step.status === 'completed';
                   const isPending = step.status === 'pending';
@@ -333,7 +318,7 @@ export default function PaymentFlowDemo() {
                         }`}
                       >
                         {isActive ? (
-                          <RefreshCw className="text-white animate-spin" size={24} />
+                          
                         ) : (
                           <Icon className="text-white" size={24} />
                         )}
@@ -351,7 +336,7 @@ export default function PaymentFlowDemo() {
                               </div>
                             )}
                             {isCompleted && (
-                              <CheckCircle className="text-green-400" size={20} />
+                              
                             )}
                           </div>
                         </div>
@@ -372,7 +357,7 @@ export default function PaymentFlowDemo() {
                                   animation: isActive ? 'fadeInUp 0.5s ease-out forwards' : 'none'
                                 }}
                               >
-                                <CheckCircle size={14} />
+                                
                                 <span>{detail}</span>
                               </div>
                             ))}
@@ -401,7 +386,7 @@ export default function PaymentFlowDemo() {
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
             <div className="bg-slate-800 border border-slate-700 rounded-xl p-8 max-w-md w-full text-center animate-pulse">
               <div className="w-20 h-20 bg-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
-                <CheckCircle className="text-white" size={40} />
+                
               </div>
               
               <h3 className="text-2xl font-bold text-white mb-4">Payment Successful!</h3>

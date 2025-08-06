@@ -1,11 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import { 
-  Mail, Phone, Building, User, MessageSquare, Send, 
-  CheckCircle, AlertCircle, ArrowLeft, MapPin, Clock, 
-  Briefcase, Code, Users, FileText 
-} from 'lucide-react';
 import Link from 'next/link';
 
 interface FormData {
@@ -41,12 +36,12 @@ const ContactForm = () => {
   const [submitError, setSubmitError] = useState('');
 
   const inquiryTypes = [
-    { value: 'partnership', label: 'Business Partnership', icon: Building },
-    { value: 'integration', label: 'API Integration', icon: Code },
-    { value: 'consulting', label: 'Consulting Services', icon: Users },
-    { value: 'demo', label: 'Product Demo', icon: FileText },
-    { value: 'support', label: 'Technical Support', icon: MessageSquare },
-    { value: 'other', label: 'Other Inquiry', icon: Mail }
+    { value: 'partnership', label: 'Business Partnership',  },
+    { value: 'integration', label: 'API Integration',  },
+    { value: 'consulting', label: 'Consulting Services',  },
+    { value: 'demo', label: 'Product Demo',  },
+    { value: 'support', label: 'Technical Support',  },
+    { value: 'other', label: 'Other Inquiry',  }
   ];
 
   const urgencyLevels = [
@@ -174,7 +169,7 @@ const ContactForm = () => {
         <div className="max-w-md w-full mx-4">
           <div className="bg-slate-800/50 rounded-xl border border-green-500/30 p-8 text-center">
             <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-              <CheckCircle className="w-8 h-8 text-green-400" />
+              
             </div>
             <h2 className="text-2xl font-bold mb-4 text-green-400">Message Sent Successfully!</h2>
             <p className="text-slate-300 mb-6">
@@ -190,7 +185,7 @@ const ContactForm = () => {
               href="/"
               className="inline-flex items-center space-x-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors"
             >
-              <ArrowLeft className="w-4 h-4" />
+              
               <span>Return to Portfolio</span>
             </Link>
           </div>
@@ -206,7 +201,7 @@ const ContactForm = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <Link href="/" className="flex items-center space-x-3 hover:opacity-80 transition-opacity">
-              <ArrowLeft className="w-5 h-5" />
+              
               <span>Back to Portfolio</span>
             </Link>
             <div className="flex items-center space-x-3">
@@ -233,7 +228,7 @@ const ContactForm = () => {
               <span>Response within 24 hours</span>
             </div>
             <div className="flex items-center space-x-2">
-              <MapPin className="w-4 h-4" />
+              
               <span>Available for remote collaboration</span>
             </div>
             <div className="flex items-center space-x-2">
@@ -267,7 +262,7 @@ const ContactForm = () => {
                   </div>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <MapPin className="w-5 h-5 text-purple-400" />
+                  
                   <div>
                     <p className="text-sm text-slate-400">Location</p>
                     <p className="text-slate-300">Available Worldwide</p>
@@ -281,7 +276,6 @@ const ContactForm = () => {
               <h3 className="text-lg font-semibold mb-4">Areas of Expertise</h3>
               <div className="space-y-3">
                 {inquiryTypes.map((type) => {
-                  const Icon = type.icon;
                   return (
                     <div key={type.value} className="flex items-center space-x-3 text-sm">
                       <Icon className="w-4 h-4 text-blue-400" />
@@ -316,7 +310,7 @@ const ContactForm = () => {
                     />
                     {errors.name && (
                       <p className="text-red-400 text-sm mt-1 flex items-center">
-                        <AlertCircle className="w-4 h-4 mr-1" />
+                        
                         {errors.name}
                       </p>
                     )}
@@ -339,7 +333,7 @@ const ContactForm = () => {
                     />
                     {errors.email && (
                       <p className="text-red-400 text-sm mt-1 flex items-center">
-                        <AlertCircle className="w-4 h-4 mr-1" />
+                        
                         {errors.email}
                       </p>
                     )}
@@ -364,7 +358,7 @@ const ContactForm = () => {
                     />
                     {errors.company && (
                       <p className="text-red-400 text-sm mt-1 flex items-center">
-                        <AlertCircle className="w-4 h-4 mr-1" />
+                        
                         {errors.company}
                       </p>
                     )}
@@ -387,7 +381,7 @@ const ContactForm = () => {
                     />
                     {errors.phone && (
                       <p className="text-red-400 text-sm mt-1 flex items-center">
-                        <AlertCircle className="w-4 h-4 mr-1" />
+                        
                         {errors.phone}
                       </p>
                     )}
@@ -401,7 +395,6 @@ const ContactForm = () => {
                   </label>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                     {inquiryTypes.map((type) => {
-                      const Icon = type.icon;
                       return (
                         <button
                           key={type.value}
@@ -421,7 +414,7 @@ const ContactForm = () => {
                   </div>
                   {errors.inquiryType && (
                     <p className="text-red-400 text-sm mt-2 flex items-center">
-                      <AlertCircle className="w-4 h-4 mr-1" />
+                      
                       {errors.inquiryType}
                     </p>
                   )}
@@ -446,7 +439,7 @@ const ContactForm = () => {
                     />
                     {errors.subject && (
                       <p className="text-red-400 text-sm mt-1 flex items-center">
-                        <AlertCircle className="w-4 h-4 mr-1" />
+                        
                         {errors.subject}
                       </p>
                     )}
@@ -489,7 +482,7 @@ const ContactForm = () => {
                   <div className="flex justify-between items-center mt-2">
                     {errors.message ? (
                       <p className="text-red-400 text-sm flex items-center">
-                        <AlertCircle className="w-4 h-4 mr-1" />
+                        
                         {errors.message}
                       </p>
                     ) : (
@@ -505,7 +498,7 @@ const ContactForm = () => {
                   {submitError && (
                     <div className="mb-4 p-4 bg-red-500/10 border border-red-500/30 rounded-lg">
                       <p className="text-red-400 text-sm flex items-center">
-                        <AlertCircle className="w-4 h-4 mr-2" />
+                        
                         {submitError}
                       </p>
                     </div>

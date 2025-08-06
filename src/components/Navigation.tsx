@@ -1,26 +1,12 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { 
-  Menu, 
-  X, 
-  Home, 
-  BarChart3, 
-  CreditCard, 
-  Code, 
-  MessageCircle, 
-  ArrowRight,
-  Zap
-} from 'lucide-react';
 
 const navigationItems = [
-  { href: '/', label: 'Home', icon: Home },
-  { href: '/analytics', label: 'Analytics', icon: BarChart3 },
-  { href: '/payment-demo', label: 'Payment Demo', icon: CreditCard },
-  { href: '/api-playground', label: 'API Playground', icon: Code },
-  { href: '/contact', label: 'Contact', icon: MessageCircle },
+  { href: '/', label: 'Home',  },
+  { href: '/analytics', label: 'Analytics',  },
+  { href: '/payment-demo', label: 'Payment Demo',  },
+  { href: '/api-playground', label: 'API Playground',  },
+  { href: '/contact', label: 'Contact',  },
 ];
 
 export default function Navigation() {
@@ -63,7 +49,6 @@ export default function Navigation() {
             {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center space-x-8">
               {navigationItems.map((item) => {
-                const Icon = item.icon;
                 const isActive = pathname === item.href;
                 
                 return (
@@ -89,7 +74,7 @@ export default function Navigation() {
               <Link href="/contact">
                 <button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-2 rounded-lg font-semibold transition-all duration-300 hover:scale-105 flex items-center space-x-2 group">
                   <span>Get Started</span>
-                  <ArrowRight className="group-hover:translate-x-1 transition-transform duration-300" size={16} />
+                  
                 </button>
               </Link>
             </div>
@@ -113,7 +98,6 @@ export default function Navigation() {
           <div className="bg-slate-900/95 backdrop-blur-md border-t border-slate-700/50">
             <div className="px-6 py-4 space-y-3">
               {navigationItems.map((item) => {
-                const Icon = item.icon;
                 const isActive = pathname === item.href;
                 
                 return (
@@ -136,7 +120,7 @@ export default function Navigation() {
                 <Link href="/contact">
                   <button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 flex items-center justify-center space-x-2">
                     <span>Get Started</span>
-                    <ArrowRight size={16} />
+                    
                   </button>
                 </Link>
               </div>

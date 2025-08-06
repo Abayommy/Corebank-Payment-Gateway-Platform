@@ -1,7 +1,6 @@
 'use client';
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { ArrowRight, BarChart3, Shield, Zap, Users, TrendingUp, CheckCircle, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
 import { AnimatedCounter, FloatingCard } from '../components/UtilityComponents';
 import Navigation from '../components/Navigation';
@@ -22,10 +21,10 @@ export default function EnhancedHomepage() {
   }, []);
 
   const features = [
-    { icon: Shield, title: "Bank-Grade Security", desc: "ISO 27001 certified with end-to-end encryption" },
-    { icon: Zap, title: "Lightning Fast", desc: "Sub-200ms response times globally" },
-    { icon: BarChart3, title: "Real-time Analytics", desc: "Comprehensive transaction monitoring" },
-    { icon: Users, title: "Global Reach", desc: "847+ enterprise clients worldwide" }
+    { , title: "Bank-Grade Security", desc: "ISO 27001 certified with end-to-end encryption" },
+    { , title: "Lightning Fast", desc: "Sub-200ms response times globally" },
+    { , title: "Real-time Analytics", desc: "Comprehensive transaction monitoring" },
+    { , title: "Global Reach", desc: "847+ enterprise clients worldwide" }
   ];
 
   const metrics = [
@@ -61,7 +60,7 @@ export default function EnhancedHomepage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
-      <Navigation />
+      
       {/* Add floating animation keyframes */}
       <style jsx>{`
         @keyframes float {
@@ -109,13 +108,13 @@ export default function EnhancedHomepage() {
             <Link href="/payment-demo">
               <button className="group bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg font-semibold transition-all duration-300 hover:scale-105 hover:shadow-2xl animate-pulse-glow">
                 Interactive Demo
-                <ArrowRight className="inline ml-2 group-hover:translate-x-2 transition-transform duration-300" size={20} />
+                
               </button>
             </Link>
             <Link href="/analytics">
               <button className="group border-2 border-gray-600 hover:border-blue-400 text-white px-8 py-4 rounded-lg font-semibold transition-all duration-300 hover:scale-105 hover:bg-blue-400/10">
                 View Analytics
-                <ExternalLink className="inline ml-2 group-hover:rotate-12 transition-transform duration-300" size={20} />
+                
               </button>
             </Link>
           </div>
@@ -127,7 +126,7 @@ export default function EnhancedHomepage() {
                 <div className="group bg-slate-800/50 hover:bg-slate-700/50 backdrop-blur-sm border border-slate-700 hover:border-blue-500/50 rounded-xl p-6 transition-all duration-500 hover:scale-105 hover:shadow-xl">
                   <div className={`text-3xl font-bold ${metric.color} mb-2`}>
                     {metric.prefix}
-                    <AnimatedCounter end={metric.value} />
+                    
                     {metric.suffix}
                   </div>
                   <div className="text-gray-400 text-sm group-hover:text-gray-300 transition-colors duration-300">
@@ -223,11 +222,11 @@ export default function EnhancedHomepage() {
                   <p className="text-blue-400 text-sm mb-4">{study.industry}</p>
                   <div className="space-y-2">
                     <div className="flex items-center text-green-400">
-                      <CheckCircle size={16} className="mr-2" />
+                      
                       <span className="text-sm">{study.improvement}</span>
                     </div>
                     <div className="flex items-center text-purple-400">
-                      <TrendingUp size={16} className="mr-2" />
+                      
                       <span className="text-sm">{study.volume}</span>
                     </div>
                   </div>
@@ -250,7 +249,7 @@ export default function EnhancedHomepage() {
           <Link href="/contact">
             <button className="group bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-12 py-4 rounded-lg font-semibold transition-all duration-300 hover:scale-105 hover:shadow-2xl">
               Schedule Demo
-              <ArrowRight className="inline ml-2 group-hover:translate-x-2 transition-transform duration-300" size={20} />
+              
             </button>
           </Link>
         </div>

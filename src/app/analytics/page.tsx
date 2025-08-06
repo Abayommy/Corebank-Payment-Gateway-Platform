@@ -73,7 +73,7 @@ export default function AnalyticsDashboard() {
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-gray-300 text-sm font-medium">{metric}</h3>
         <div className={`flex items-center space-x-1 ${trend > 0 ? 'text-green-400' : 'text-red-400'}`}>
-          {trend > 0 ? <TrendingUp size={16} /> : <TrendingDown size={16} />}
+          {trend > 0 ?  : }
           <span className="text-xs">{Math.abs(trend)}%</span>
         </div>
       </div>
@@ -136,7 +136,7 @@ export default function AnalyticsDashboard() {
         {/* Performance Metrics Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {performanceMetrics.map((metric, index) => (
-            <MetricCard key={index} {...metric} />
+            
           ))}
         </div>
 
@@ -147,7 +147,7 @@ export default function AnalyticsDashboard() {
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-bold text-white">Transaction Volume (24h)</h2>
               <div className="flex items-center space-x-2">
-                <DollarSign className="text-green-400" size={20} />
+                
                 <span className="text-green-400 font-semibold">
                   {formatCurrency(transactionData.reduce((sum, item) => sum + item.volume, 0))}
                 </span>
@@ -161,8 +161,8 @@ export default function AnalyticsDashboard() {
                     <stop offset="95%" stopColor="#3B82F6" stopOpacity={0.1}/>
                   </linearGradient>
                 </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-                <XAxis dataKey="hour" stroke="#9CA3AF" />
+                
+                
                 <YAxis stroke="#9CA3AF" tickFormatter={(value) => formatCurrency(value)} />
                 <Tooltip 
                   contentStyle={{ 
@@ -196,8 +196,8 @@ export default function AnalyticsDashboard() {
             </div>
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={transactionData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-                <XAxis dataKey="hour" stroke="#9CA3AF" />
+                
+                
                 <YAxis 
                   stroke="#9CA3AF" 
                   domain={[99.5, 100]}
@@ -235,7 +235,7 @@ export default function AnalyticsDashboard() {
                 data={regionalData}
                 margin={{ top: 5, right: 30, left: 20, bottom: 80 }}
               >
-                <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
+                
                 <XAxis 
                   dataKey="region" 
                   stroke="#9CA3AF"
@@ -244,7 +244,7 @@ export default function AnalyticsDashboard() {
                   height={80}
                   fontSize={12}
                 />
-                <YAxis stroke="#9CA3AF" tickFormatter={formatCurrency} />
+                
                 <Tooltip 
                   contentStyle={{ 
                     backgroundColor: '#1F2937', 
