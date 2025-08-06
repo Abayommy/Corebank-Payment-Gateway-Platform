@@ -183,7 +183,7 @@ export default function EnhancedHomepage() {
                 <div className="bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-2xl p-8 hover:shadow-2xl transition-all duration-500">
                   <div className="text-center mb-6">
                     <div className="w-20 h-20 bg-blue-600/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                      {React.createElement(features[activeFeature].icon, { size: 40, className: "text-blue-400" })}
+                      {}
                     </div>
                     <h3 className="text-2xl font-bold text-white mb-2">{features[activeFeature].title}</h3>
                     <p className="text-gray-300">{features[activeFeature].desc}</p>

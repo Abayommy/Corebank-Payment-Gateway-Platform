@@ -320,7 +320,7 @@ export default function PaymentFlowDemo() {
                         {isActive ? (
                           
                         ) : (
-                          <Icon className="text-white" size={24} />
+                          
                         )}
                       </div>
 

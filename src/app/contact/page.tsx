@@ -278,7 +278,7 @@ const ContactForm = () => {
                 {inquiryTypes.map((type) => {
                   return (
                     <div key={type.value} className="flex items-center space-x-3 text-sm">
-                      <Icon className="w-4 h-4 text-blue-400" />
+                      
                       <span className="text-slate-300">{type.label}</span>
                     </div>
                   );
@@ -406,7 +406,7 @@ const ContactForm = () => {
                               : 'border-slate-700 bg-slate-900/50 hover:border-slate-600'
                           }`}
                         >
-                          <Icon className="w-5 h-5 mb-2" />
+                          
                           <p className="text-sm font-medium">{type.label}</p>
                         </button>
                       );

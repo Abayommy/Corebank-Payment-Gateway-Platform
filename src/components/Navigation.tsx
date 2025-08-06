@@ -61,7 +61,7 @@ export default function Navigation() {
                         : 'text-gray-300 hover:text-white hover:bg-slate-800/50'
                     }`}
                   >
-                    <Icon size={18} />
+                    
                     <span>{item.label}</span>
                     {isActive && (
                       <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-400 rounded-full"></div>
@@ -110,7 +110,7 @@ export default function Navigation() {
                         : 'text-gray-300 hover:text-white hover:bg-slate-800/50'
                     }`}
                   >
-                    <Icon size={20} />
+                    
                     <span>{item.label}</span>
                   </Link>
                 );
